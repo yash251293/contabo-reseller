@@ -62,11 +62,15 @@
                                                 <p><strong>Primary Nameserver:</strong> {{ primary_nameserver }}</p>
                                                 <p><strong>Secondary Nameserver:</strong> {{ secondary_nameserver }}</p>
                                                 <p class="text-muted"><em>(Please point your domain's nameservers to the above to activate your website.)</em></p>
+
+                                                <hr>
+                                                <p class="text-center">
+                                                    <a href="http://{{ ftp_hostname }}:8090" target="_blank" class="btn btn-primary btn-sm">Login to CyberPanel</a>
+                                                </p>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                {% comment %} Add links to manage service in CyberPanel if available {% endcomment %}
-                                                {% comment %} <a href="#" class="btn btn-primary" target="_blank">Manage in CyberPanel</a> {% endcomment %}
+                                                {% comment %} Add more specific links to manage service in CyberPanel if API provides them, e.g., direct link to website management page {% endcomment %}
                                             </div>
                                         </div>
                                     </div>
