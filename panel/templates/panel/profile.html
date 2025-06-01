@@ -1,0 +1,43 @@
+{% extends 'panel/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>User Profile</h2>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Username:</dt>
+                        <dd class="col-sm-9">{{ user.username }}</dd>
+
+                        <dt class="col-sm-3">Email:</dt>
+                        <dd class="col-sm-9">{{ user.email }}</dd>
+
+                        <dt class="col-sm-3">First Name:</dt>
+                        <dd class="col-sm-9">{{ user.first_name|default:"Not set" }}</dd>
+
+                        <dt class="col-sm-3">Last Name:</dt>
+                        <dd class="col-sm-9">{{ user.last_name|default:"Not set" }}</dd>
+
+                        <dt class="col-sm-3">Date Joined:</dt>
+                        <dd class="col-sm-9">{{ user.date_joined|date:"F j, Y, P" }}</dd>
+                    </dl>
+
+                    <div class="text-center mt-4">
+                        {% comment %} <a href="#" class="btn btn-primary">Edit Profile</a> {% endcomment %}
+                        <a href="{% url 'password_change' %}" class="btn btn-warning">Change Password</a>
+                        {% comment %} Django's built-in password change views need to be wired up in urls.py
+                                     e.g., from django.contrib.auth import views as auth_views
+                                     path('password_change/', auth_views.PasswordChangeView.as_view(template_name='panel/password_change_form.html', success_url='/panel/password_change/done/'), name='password_change'),
+                                     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='panel/password_change_done.html'), name='password_change_done'),
+                        {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

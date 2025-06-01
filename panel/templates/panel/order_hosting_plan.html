@@ -1,0 +1,53 @@
+{% extends 'panel/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card mt-5">
+            <div class="card-header text-center">
+                <h2>Order Hosting Plan: {{ plan.name }}</h2>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <p><strong>Price:</strong> ${{ plan.price_monthly }}/month</p>
+                    <p><strong>Disk Space:</strong> {{ plan.disk_space_gb }} GB</p>
+                    <p><strong>Bandwidth:</strong> {{ plan.bandwidth_gb }} GB</p>
+                    <p><strong>Email Accounts:</strong> {{ plan.email_accounts }}</p>
+                    <p><strong>Databases:</strong> {{ plan.databases }}</p>
+                </div>
+                <hr>
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {% render_field field class="form-control" placeholder=field.label %}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">Complete Order</button>
+                        <a href="{% url 'list_hosting_plans' %}" class="btn btn-outline-secondary">Cancel and Return to Plans</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

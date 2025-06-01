@@ -1,0 +1,87 @@
+{% extends 'panel/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">My Services</h2>
+
+    {% if services %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Domain Name</th>
+                        <th>Hosting Plan</th>
+                        <th>CyberPanel User</th>
+                        <th>Status</th>
+                        <th>Provisioned On</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in services %}
+                        <tr>
+                            <td>{{ service.domain_name }}</td>
+                            <td>{{ service.hosting_plan.name }}</td>
+                            <td>{{ service.cyberpanel_username }}</td>
+                            <td>
+                                {% if service.is_active %}
+                                    <span class="badge bg-success">Active</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ service.created_at|date:"Y-m-d H:i" }}</td>
+                            <td>
+                                <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#serviceModal{{ service.id }}">
+                                    View Details
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="serviceModal{{ service.id }}" tabindex="-1" aria-labelledby="serviceModalLabel{{ service.id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="serviceModalLabel{{ service.id }}">Service Details: {{ service.domain_name }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><strong>Domain Name:</strong> {{ service.domain_name }}</p>
+                                                <p><strong>Hosting Plan:</strong> {{ service.hosting_plan.name }}</p>
+                                                <p><strong>CyberPanel Username:</strong> {{ service.cyberpanel_username }}</p>
+                                                <p><strong>Status:</strong> {% if service.is_active %}Active{% else %}Inactive{% endif %}</p>
+                                                <p><strong>Provisioned On:</strong> {{ service.created_at|date:"Y-m-d H:i" }}</p>
+
+                                                <hr>
+                                                <h5>Connection Details:</h5>
+                                                <p><strong>FTP Hostname / Server IP:</strong> {{ ftp_hostname }}</p>
+                                                <p><strong>FTP/SFTP Username:</strong> {{ service.cyberpanel_username }}</p>
+                                                <p class="text-muted"><em>(Password for FTP/SFTP is the one generated during service creation, or as changed by you in CyberPanel.)</em></p>
+
+                                                <hr>
+                                                <h5>Nameservers:</h5>
+                                                <p><strong>Primary Nameserver:</strong> {{ primary_nameserver }}</p>
+                                                <p><strong>Secondary Nameserver:</strong> {{ secondary_nameserver }}</p>
+                                                <p class="text-muted"><em>(Please point your domain's nameservers to the above to activate your website.)</em></p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                {% comment %} Add links to manage service in CyberPanel if available {% endcomment %}
+                                                {% comment %} <a href="#" class="btn btn-primary" target="_blank">Manage in CyberPanel</a> {% endcomment %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center" role="alert">
+            You have no active services at the moment.
+            <a href="{% url 'list_hosting_plans' %}" class="alert-link">Click here to order a new hosting plan.</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

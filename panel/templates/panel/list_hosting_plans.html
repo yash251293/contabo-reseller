@@ -1,0 +1,35 @@
+{% extends 'panel/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Available Hosting Plans</h2>
+    {% if plans %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for plan in plans %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h3 class="card-title mb-0">{{ plan.name }}</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><strong>Disk Space:</strong> {{ plan.disk_space_gb }} GB</p>
+                            <p class="card-text"><strong>Bandwidth:</strong> {{ plan.bandwidth_gb }} GB</p>
+                            <p class="card-text"><strong>Email Accounts:</strong> {{ plan.email_accounts }}</p>
+                            <p class="card-text"><strong>Databases:</strong> {{ plan.databases }}</p>
+                            <p class="fs-4 fw-bold text-success">${{ plan.price_monthly }}/month</p>
+                            <p class="card-text"><small class="text-muted">CyberPanel Package: {{ plan.cyberpanel_package_name }}</small></p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="{% url 'order_hosting_plan' plan.id %}" class="btn btn-primary btn-lg">Order Now</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center" role="alert">
+            No hosting plans are currently available. Please check back later.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
