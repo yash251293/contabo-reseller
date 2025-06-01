@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import CustomUserCreationForm
+from django.urls import reverse # Added for panel_index_view
 
 # View for user registration.
 def register(request):
@@ -147,3 +148,14 @@ def customer_services_view(request):
         'ftp_hostname': getattr(settings, 'CYBERPANEL_HOSTNAME', ftp_hostname_from_api_url)
     }
     return render(request, 'panel/customer_services.html', context)
+
+# Root view for the 'panel' app.
+# Redirects authenticated users to their service list ('customer_services').
+# Redirects anonymous users to the hosting plan list ('list_hosting_plans').
+def panel_index_view(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('customer_services'))
+    else:
+        # For anonymous users, it's more logical to show plans or login/register.
+        # list_hosting_plans is a good public entry point.
+        return redirect(reverse('list_hosting_plans'))
