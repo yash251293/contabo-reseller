@@ -130,8 +130,8 @@ LOGIN_REDIRECT_URL = '/panel/profile/'
 # CyberPanel API Settings
 # IMPORTANT: For production, move these to environment variables or a secure vault!
 CYBERPANEL_API_URL = 'https://your_cyberpanel_server_ip:8090/api/' # e.g., 'https://<SERVER_IP>:8090/api/'
-CYBERPANEL_ADMIN_USERNAME = 'admin_username_placeholder'
-CYBERPANEL_ADMIN_PASSWORD = 'admin_password_placeholder'
+CYBERPANEL_ADMIN_USERNAME = 'admin'
+CYBERPANEL_ADMIN_PASSWORD = 'newpassword'
 
 # Nameservers and Server Hostname (for customer display)
 PRIMARY_NAMESERVER = 'ns1.yourcyberpanelserver.com' # Placeholder
